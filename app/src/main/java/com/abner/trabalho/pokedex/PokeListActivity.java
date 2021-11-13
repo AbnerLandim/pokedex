@@ -26,7 +26,6 @@ public class PokeListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewPokeList;
     private TextInputEditText searchEditText;
-    private ImageButton searchButton;
     private ArrayList<Pokemon> pokemons = new ArrayList<>();
     private PokeAdapter listAdapter;
     private int PAGINATION_SIZE;
@@ -42,7 +41,6 @@ public class PokeListActivity extends AppCompatActivity {
         PokeAPI pokeApi = new PokeAPI();
 
         searchEditText = findViewById(R.id.search_edit_text);
-        searchButton = findViewById(R.id.search_button);
 
         recyclerViewPokeList = findViewById(R.id.recycler_poke_list);
         recyclerViewPokeList.setLayoutManager(new GridLayoutManager(this, 2));
