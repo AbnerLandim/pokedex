@@ -28,7 +28,7 @@ public class PokeAPI {
                             JSONArray results = object.getJSONArray("results");
                             for (int i = 0; i < results.length(); i++) {
                                 JSONObject pokeObject = results.getJSONObject(i);
-                                int id = i+1;
+                                int id = i + offset + 1;
                                 String name = pokeObject.getString("name");
                                 pokemons.add(new Pokemon(id, name, "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"+id+".png" ));
                             }
