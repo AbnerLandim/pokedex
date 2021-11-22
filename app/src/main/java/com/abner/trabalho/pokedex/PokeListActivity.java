@@ -49,9 +49,10 @@ public class PokeListActivity extends AppCompatActivity {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    pokeApi.getPokemons(searchEditText.getText().toString(), new PokeAPI.OnPokeAPIListener() {
+                    pokeApi.getPokemons(searchEditText.getText().toString(), PAGINATION_SIZE, offset, new PokeAPI.OnPokeAPIListener() {
                         @Override
                         public void onFinish(ArrayList<Pokemon> pokemons) {
+                            offset = 0;
                             updateSearch(pokemons);
                         }
                     });
@@ -78,7 +79,7 @@ public class PokeListActivity extends AppCompatActivity {
 
         recyclerViewPokeList.setAdapter(listAdapter);
 
-        pokeApi.getPokemons("", new PokeAPI.OnPokeAPIListener() {
+        pokeApi.getPokemons("", PAGINATION_SIZE, offset, new PokeAPI.OnPokeAPIListener() {
             @Override
             public void onFinish(ArrayList<Pokemon> pokemons) {
                 if (pokemons != null) {
@@ -88,18 +89,25 @@ public class PokeListActivity extends AppCompatActivity {
             }
         });
 
-//        recyclerViewPokeList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                if (!recyclerView.canScrollVertically(1) && newState==RecyclerView.SCROLL_STATE_IDLE) {
-////                    offset += PAGINATION_SIZE;
-//                    // asyncTask.execute("https://pokeapi.co/api/v2/pokemon?limit="+PAGINATION_SIZE+"&offset="+offset, "GET");
-//                    // recyclerViewPokeList.getAdapter().notifyDataSetChanged();
-//                    Log.v("APP_POKEDEX", String.valueOf(offset));
-//                }
-//            }
-//        });
+        recyclerViewPokeList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (!recyclerView.canScrollVertically(1) && newState==RecyclerView.SCROLL_STATE_IDLE) {
+                    offset += PAGINATION_SIZE;
+                    pokeApi.getPokemons("", PAGINATION_SIZE, offset, new PokeAPI.OnPokeAPIListener() {
+                        @Override
+                        public void onFinish(ArrayList<Pokemon> pokemons) {
+                            if (pokemons != null) {
+                                PokeListActivity.this.pokemons.addAll(PokeListActivity.this.pokemons.size(), pokemons);
+                                recyclerViewPokeList.getAdapter().notifyItemRangeInserted(PokeListActivity.this.pokemons.size(), pokemons.size());
+                            }
+                        }
+                    });
+                    Log.v("APP_POKEDEX", String.valueOf(offset));
+                }
+            }
+        });
     }
 
     private void updateSearch(ArrayList<Pokemon> pokemons) {

@@ -16,7 +16,7 @@ public class PokeAPI {
 
     private ArrayList<Pokemon> pokemons = new ArrayList<>();
 
-    public void getPokemons(String name, OnPokeAPIListener listener) {
+    public void getPokemons(String name, int paginationSize, int offset, OnPokeAPIListener listener) {
 
         PokeConnectionAsyncTask asyncTask = new PokeConnectionAsyncTask(new PokeConnectionAsyncTask.OnRequestListener() {
             @Override
@@ -46,7 +46,7 @@ public class PokeAPI {
             }
         });
 //        asyncTask.execute("https://pokeapi.co/api/v2/pokemon?limit="+PAGINATION_SIZE+"&offset="+offset, "GET");
-        if (name.isEmpty()) asyncTask.execute("https://pokeapi.co/api/v2/pokemon?limit=1118/", "GET");
+        if (name.isEmpty()) asyncTask.execute("https://pokeapi.co/api/v2/pokemon?limit=" + paginationSize + "&offset=" + offset, "GET");
         else asyncTask.execute("https://pokeapi.co/api/v2/pokemon/" + name, "GET");
     }
 
