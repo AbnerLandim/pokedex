@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".PokeListActivity">
 
     <com.google.android.material.textfield.TextInputEditText
@@ -11,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:hint="Search by name..."
-        android:textColor="@color/black"
+        android:textColorHint="#888888"
+        android:textColor="#000000"
         android:textSize="16dp"
         tools:ignore="MissingConstraints"
         android:layout_marginStart="8dp"

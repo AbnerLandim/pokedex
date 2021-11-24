@@ -49,7 +49,7 @@ public class PokeListActivity extends AppCompatActivity {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    pokeApi.getPokemons(searchEditText.getText().toString(), PAGINATION_SIZE, offset, new PokeAPI.OnPokeAPIListener() {
+                    pokeApi.getPokemons(searchEditText.getText().toString().toLowerCase(), PAGINATION_SIZE, offset, new PokeAPI.OnPokeAPIListener() {
                         @Override
                         public void onFinish(ArrayList<Pokemon> pokemons) {
                             offset = 0;
